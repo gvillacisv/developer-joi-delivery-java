@@ -15,7 +15,7 @@
 | TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
 | TD-005 | No containerization | Medium | Open | 2026-04-20 |
 | TD-006 | Replace DTOs with Java Records | Low | Open | 2026-04-20 |
-| TD-007 | Unused imports in domain classes | Very Low | Open | 2026-04-20 |
+| TD-007 | Unused imports in domain classes | Low | Open | 2026-04-20 |
 
 ---
 
@@ -199,4 +199,5 @@ For projects with many debt items, use **GitHub Issues** instead:
 - `docs/adrs/ADR-001-contract-first-development.md`
 - `docs/adrs/ADR-002-standardized-error-format.md`
 - `docs/adrs/ADR-003-input-validation-strategy.md`
+- `docs/adrs/ADR-004-clean-architecture-future.md`
 - `docs/adrs/ADR-005-immutable-dtos-mutable-domain.md`

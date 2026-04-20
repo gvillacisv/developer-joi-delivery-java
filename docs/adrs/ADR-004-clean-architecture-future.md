@@ -1,4 +1,4 @@
-# ADR-006: Consider Clean Architecture for Future
+# ADR-004: Consider Clean Architecture for Future
 
 ## Status
 Proposed

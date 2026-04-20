@@ -186,7 +186,7 @@ GET /api/v1/inventory/health?storeId=<storeid>
 Response Body 
 ```json
 {
-    // to be implemented. See TD-001 in docs/adr/ADR-004-technical-debt-registry.md
+    // to be implemented. See TD-001 in docs/tech-debt/TECH-DEBT-LOG.md
 }
 ```
 
