@@ -151,8 +151,6 @@
 - `Cart.java`: `HashSet`, `Set` — imported but not used (uses `ArrayList`)
 - `Outlet.java`: `ArrayList`, `HashSet`, `List`, `Set` — all imported but not used
 
-**Impact**: Code cleanliness, minor build overhead (negligible).
-
 **Suggested Fix**: Remove unused imports from Cart.java and Outlet.java.
 
 ---
