@@ -190,9 +190,10 @@ components:
           format: decimal
           nullable: true
         expiryDate:
-          type: integer
-          description: Days until expiry (relative to current date)
-          example: 30
+          type: string
+          format: date
+          description: Expiry date in ISO 8601 format
+          example: "2026-05-20"
         threshold:
           type: integer
           example: 10

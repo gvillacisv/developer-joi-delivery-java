@@ -14,6 +14,8 @@
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
 | TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
 | TD-005 | No containerization | Medium | Open | 2026-04-20 |
+| TD-006 | Replace DTOs with Java Records | Low | Open | 2026-04-20 |
+| TD-007 | Unused imports in domain classes | Very Low | Open | 2026-04-20 |
 
 ---
 
@@ -114,6 +116,47 @@
 
 ---
 
+## TD-006: Replace DTOs with Java Records
+
+| Attribute | Value |
+|-----------|-------|
+| **Category** | Code Quality |
+| **Severity** | Low |
+| **Status** | Open |
+| **Created** | 2026-04-20 |
+
+**Description**: DTOs currently use Lombok with mutable fields. Java 25 supports Records which provide immutability without Lombok.
+
+**Impact**: 
+- DTOs can be immutable (correct for data transfer)
+- Reduces dependencies (no Lombok for DTOs)
+- Follows modern Java best practices
+
+**Suggested Fix**: Convert all DTOs to Java Records. See ADR-005 for details.
+
+---
+
+## TD-007: Unused Imports in Domain Classes
+
+| Attribute | Value |
+|-----------|-------|
+| **Category** | Code Quality |
+| **Severity** | Very Low |
+| **Status** | Open |
+| **Created** | 2026-04-20 |
+
+**Description**: Several domain classes have unused imports.
+
+**Files with unused imports**:
+- `Cart.java`: `HashSet`, `Set` — imported but not used (uses `ArrayList`)
+- `Outlet.java`: `ArrayList`, `HashSet`, `List`, `Set` — all imported but not used
+
+**Impact**: Code cleanliness, minor build overhead (negligible).
+
+**Suggested Fix**: Remove unused imports from Cart.java and Outlet.java.
+
+---
+
 ## Priority Order
 
 | Priority | ID | Item |
@@ -123,6 +166,8 @@
 | 3 (Medium) | TD-001 | Inventory Health |
 | 4 (Medium) | TD-004 | O(n) Performance |
 | 5 (Medium) | TD-005 | Containerization |
+| 6 (Low) | TD-006 | Replace DTOs with Records |
+| 7 (Very Low) | TD-007 | Unused Imports |
 
 ---
 
@@ -156,3 +201,4 @@ For projects with many debt items, use **GitHub Issues** instead:
 - `docs/adrs/ADR-001-contract-first-development.md`
 - `docs/adrs/ADR-002-standardized-error-format.md`
 - `docs/adrs/ADR-003-input-validation-strategy.md`
+- `docs/adrs/ADR-005-immutable-dtos-mutable-domain.md`

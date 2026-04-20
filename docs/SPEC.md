@@ -39,7 +39,7 @@ POST /api/v1/cart/product
 | `userId` | String | ✅ Yes | Non-empty, alphanumeric |
 | `productId` | String | ✅ Yes | Non-empty, alphanumeric |
 | `outletId` | String | ✅ Yes | Non-empty, alphanumeric |
-| `quantity` | Integer | No | Default: 1, Min: 1, Max: 99 |
+| `quantity` | Integer | No (default: 1) | Min: 1, Max: 99 |
 
 ```json
 {
@@ -129,7 +129,7 @@ GET /api/v1/inventory/health?storeId={storeId}
 | `lowStockProducts[]` | Array | Products below threshold |
 | `outOfStockProducts[]` | Array | Products with zero stock |
 
-> **Note**: This endpoint is documented but not yet implemented. See TD-001 in `ADR-004-technical-debt-registry.md`.
+> **Note**: This endpoint is documented but not yet implemented. See TD-001 in `docs/tech-debt/TECH-DEBT-LOG.md`.
 
 **Error Responses**:
 
@@ -163,7 +163,7 @@ GET /api/v1/inventory/health?storeId={storeId}
 | `mrp` | BigDecimal | No | |
 | `sellingPrice` | BigDecimal | Yes | |
 | `weight` | BigDecimal | Yes | |
-| `expiryDate` | Integer | Yes | Days until expiry (relative to current date) |
+| `expiryDate` | String | Yes | ISO 8601 format (e.g., "2026-05-20") |
 | `threshold` | Integer | Yes | Low stock threshold |
 | `availableStock` | Integer | No | |
 | `discount` | BigDecimal | Yes | |

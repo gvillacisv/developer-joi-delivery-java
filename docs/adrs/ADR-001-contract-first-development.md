@@ -48,5 +48,5 @@ We will adopt **Contract-First Development** using OpenAPI 3.0 as the single sou
 5. Add security schemes to spec (future)
 
 ## Related ADRs
-- ADR-002: Error Response Standardization
+- ADR-002: Standardized Error Response Format
 - ADR-003: Input Validation Strategy
