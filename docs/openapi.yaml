@@ -1,0 +1,296 @@
+openapi: 3.0.3
+info:
+  title: JOI Delivery API
+  description: |
+    JOI Delivery API - Hyperlocal food and grocery delivery platform
+    
+    ## Version
+    v1.0.0
+    
+    ## Base URL
+    http://localhost:8080/api/v1
+  version: 1.0.0
+  contact:
+    name: JOI Delivery Team
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+
+paths:
+  /cart/product:
+    post:
+      summary: Add product to cart
+      operationId: addProductToCart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddProductRequest'
+      responses:
+        '200':
+          description: Product added to cart successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartProductInfo'
+        '400':
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '404':
+          description: User, product, or outlet not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /cart/view:
+    get:
+      summary: View cart for user
+      operationId: viewCart
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_-]{3,50}$'
+      responses:
+        '200':
+          description: Cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: Missing or invalid userId
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '404':
+          description: User not found or has no cart
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+  /inventory/health:
+    get:
+      summary: Check inventory health for a store
+      operationId: checkInventoryHealth
+      parameters:
+        - name: storeId
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9_-]{3,50}$'
+      responses:
+        '200':
+          description: Inventory health retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryHealth'
+        '400':
+          description: Missing or invalid storeId
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+        '404':
+          description: Store not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetail'
+
+components:
+  schemas:
+    AddProductRequest:
+      type: object
+      required:
+        - userId
+        - productId
+        - outletId
+      properties:
+        userId:
+          type: string
+          pattern: '^[a-zA-Z0-9_-]{3,50}$'
+          description: User identifier
+          example: user101
+        productId:
+          type: string
+          pattern: '^[a-zA-Z0-9_-]{3,50}$'
+          description: Product identifier
+          example: product101
+        outletId:
+          type: string
+          pattern: '^[a-zA-Z0-9_-]{3,50}$'
+          description: Store/outlet identifier
+          example: store101
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 99
+          default: 1
+          description: Number of items to add
+          example: 2
+
+    CartProductInfo:
+      type: object
+      properties:
+        cart:
+          $ref: '#/components/schemas/Cart'
+        product:
+          $ref: '#/components/schemas/Product'
+        sellingPrice:
+          type: number
+          nullable: true
+
+    Cart:
+      type: object
+      properties:
+        cartId:
+          type: string
+          example: cart101
+        outlet:
+          $ref: '#/components/schemas/Outlet'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        user:
+          $ref: '#/components/schemas/User'
+
+    Product:
+      type: object
+      properties:
+        productId:
+          type: string
+          example: product101
+        productName:
+          type: string
+          example: Wheat Bread
+        mrp:
+          type: number
+          format: decimal
+          example: 10.5
+        sellingPrice:
+          type: number
+          format: decimal
+          nullable: true
+        weight:
+          type: number
+          format: decimal
+          nullable: true
+        expiryDate:
+          type: integer
+          description: Days until expiry (relative to current date)
+          example: 30
+        threshold:
+          type: integer
+          example: 10
+        availableStock:
+          type: integer
+          example: 30
+        discount:
+          type: number
+          format: decimal
+          nullable: true
+        store:
+          $ref: '#/components/schemas/Outlet'
+
+    Outlet:
+      type: object
+      properties:
+        outletId:
+          type: string
+          example: store101
+        name:
+          type: string
+          example: Fresh Picks
+        description:
+          type: string
+          nullable: true
+        inventory:
+          type: array
+          items:
+            type: object
+          nullable: true
+
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: user101
+        username:
+          type: string
+          nullable: true
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Doe
+        email:
+          type: string
+          format: email
+          example: John.Doe@gmail.com
+        phoneNumber:
+          type: string
+          example: "519898286"
+        cart:
+          $ref: '#/components/schemas/Cart'
+          nullable: true
+
+    InventoryHealth:
+      type: object
+      properties:
+        storeId:
+          type: string
+        status:
+          type: string
+          enum: [HEALTHY, LOW_STOCK, OUT_OF_STOCK]
+        lowStockProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        outOfStockProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+
+    # RFC 7807 Problem Detail
+    ProblemDetail:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          format: uri
+          description: A URI reference that identifies the problem type
+          default: about:blank
+        title:
+          type: string
+          description: A short, human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code
+        detail:
+          type: string
+          description: A human-readable explanation specific to this occurrence of the problem
+        instance:
+          type: string
+          format: uri
+          description: A URI reference that identifies the specific occurrence of the problem

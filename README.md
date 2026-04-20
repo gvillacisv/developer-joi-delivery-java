@@ -51,11 +51,13 @@ Dummy Products for Stores to sell and users to buy from.
 
 ## API
 
+> **Important**: All API endpoints are versioned under `/api/v1`. See [docs/SPEC.md](docs/SPEC.md) for the formal API contract.
+
 Below is a list of API endpoints with their respective input and output. Please note that the application needs to be running for the following endpoints to work. For more information about how to run the application, please refer to run the application section above.
 
 ### Add Product to Cart
 ```http
-POST /cart/product
+POST /api/v1/cart/product
 Content-Type: application/json
 ```
 
@@ -64,7 +66,8 @@ Request Body
 {
   "userId": "user101",
   "productId": "product101",
-  "outletId": "store101"
+  "outletId": "store101",
+  "quantity": 1
 }
 ```
 
@@ -131,7 +134,7 @@ Response Body
 
 ### View Cart
 ```http
-GET /cart/view?userId=user101
+GET /api/v1/cart/view?userId=user101
 ```
 
 Response Body
@@ -177,15 +180,19 @@ Response Body
 
 ### Inventory Health
 ```http
-GET /inventory/health?storeid=<storeid>
+GET /api/v1/inventory/health?storeId=<storeid>
 ```
 
 Response Body 
-```json lines
+```json
 {
-    // to be implemented.
+    // to be implemented. See TD-001 in docs/adr/ADR-004-technical-debt-registry.md
 }
 ```
+
+> **Note**: For detailed API specification including error responses, validation rules, and data models, see [docs/SPEC.md](docs/SPEC.md).
+
+> **Technical Debt**: Known gaps are tracked in [docs/tech-debt/TECH-DEBT-LOG.md](docs/tech-debt/TECH-DEBT-LOG.md).
 
 ## Tech Requirements
 The project requires Java 25. If you have multiple JVMs on your machine, you might want to
