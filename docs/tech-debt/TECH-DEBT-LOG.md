@@ -51,13 +51,22 @@
 | **Status** | Open |
 | **Created** | 2026-04-20 |
 
-**Description**: API endpoints lack input validation. DTOs accept null, empty, or malformed strings.
+**Description**: API endpoints lack input validation. DTOs accept null, empty, or malformed strings. Query parameters are not validated.
 
 **Impact**: Runtime NullPointerExceptions, 500 errors for client mistakes.
 
 **Technical Details**:
 - `AddProductRequest` has no Bean Validation annotations
+- Query parameters (`userId`, `storeId`) are not validated
 - Services return `null` for not-found entities
+- Missing `spring-boot-starter-validation` dependency
+
+**Endpoints Affected**:
+| Endpoint | Input | Validation Needed |
+|----------|-------|------------------|
+| `POST /api/v1/cart/product` | RequestBody (AddProductRequest) | NotBlank, Pattern |
+| `GET /api/v1/cart/view?userId=` | QueryParam | NotBlank, Pattern |
+| `GET /api/v1/inventory/health?storeId=` | QueryParam | NotBlank, Pattern |
 
 **Suggested Fix**: Add Spring Validation + Bean Validation annotations + global exception handler (see `docs/adrs/ADR-003-input-validation-strategy.md`).
 
