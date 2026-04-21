@@ -17,7 +17,7 @@
 | TD-006 | Replace DTOs with Java Records | Low | Resolved | 2026-04-20 |
 | TD-007 | Unused imports in domain classes | Low | Resolved | 2026-04-20 |
 | TD-008 | Fix all unit tests with TDD | High | Open | 2026-04-20 |
-| TD-009 | No code coverage library | Medium | Open | 2026-04-20 |
+| TD-009 | No code coverage library | Medium | Resolved | 2026-04-20 |
 
 ---
 
