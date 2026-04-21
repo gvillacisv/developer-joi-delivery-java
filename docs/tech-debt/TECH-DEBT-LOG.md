@@ -10,7 +10,7 @@
 | ID | Title | Severity | Status | Created |
 |----|-------|----------|--------|---------|
 | TD-001 | Inventory Health endpoint not implemented | Medium | Resolved | 2026-04-20 |
-| TD-002 | Missing input validation | High | Open | 2026-04-20 |
+| TD-002 | Missing input validation | High | Resolved | 2026-04-20 |
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
 | TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
 | TD-005 | No containerization | Medium | Open | 2026-04-20 |
@@ -27,7 +27,7 @@
 |-----------|-------|
 | **Category** | Feature Gap |
 | **Severity** | Medium |
-| **Status** | Open |
+| **Status** | Resolved |
 | **Created** | 2026-04-20 |
 
 **Description**: The `/api/v1/inventory/health` endpoint is documented in SPEC.md and OpenAPI spec, but the implementation returns an empty response (`HttpEntity.EMPTY`).
@@ -48,27 +48,38 @@
 |-----------|-------|
 | **Category** | Security / Robustness |
 | **Severity** | High |
-| **Status** | Open |
+| **Status** | Resolved |
 | **Created** | 2026-04-20 |
+| **Resolved** | 2026-04-21 |
 
 **Description**: API endpoints lack input validation. DTOs accept null, empty, or malformed strings. Query parameters are not validated.
 
 **Impact**: Runtime NullPointerExceptions, 500 errors for client mistakes.
 
-**Technical Details**:
-- `AddProductRequest` has no Bean Validation annotations
-- Query parameters (`userId`, `storeId`) are not validated
-- Services return `null` for not-found entities
-- Missing `spring-boot-starter-validation` dependency
+**Resolution**: Implemented Jakarta Bean Validation with global exception handler.
+- Added `spring-boot-starter-validation` to build.gradle
+- Created `ValidationErrorResponse.java` DTO for structured 400 errors
+- Created `GlobalExceptionHandler.java` (@RestControllerAdvice)
+- Added `@NotBlank` to `AddProductRequest` (userId, outletId, productId)
+- Added `@Validated` + `@NotBlank` to controllers for query param validation
+- Added `@Valid` to `@RequestBody` for request body validation
 
-**Endpoints Affected**:
-| Endpoint | Input | Validation Needed |
-|----------|-------|------------------|
-| `POST /api/v1/cart/product` | RequestBody (AddProductRequest) | NotBlank, Pattern |
-| `GET /api/v1/cart/view?userId=` | QueryParam | NotBlank, Pattern |
-| `GET /api/v1/inventory/health?storeId=` | QueryParam | NotBlank, Pattern |
+**Validation Annotations Are Self-Testing**: Jakarta Bean Validation annotations are fail-fast and framework-tested. No unit tests needed for validation logic itself.
 
-**Suggested Fix**: Add Spring Validation + Bean Validation annotations + global exception handler (see `docs/adrs/ADR-003-input-validation-strategy.md`).
+**Files Changed**:
+- `build.gradle`: +1 line (validation starter)
+- `ValidationErrorResponse.java`: NEW DTO
+- `GlobalExceptionHandler.java`: NEW exception handler
+- `AddProductRequest.java`: +@NotBlank annotations
+- `CartController.java`: +@Validated, @Valid
+- `InventoryController.java`: +@Validated
+
+**Endpoints Now Validated**:
+| Endpoint | Input | Validation |
+|----------|-------|------------|
+| `POST /api/v1/cart/product` | RequestBody | @NotBlank on userId, outletId, productId |
+| `GET /api/v1/cart/view?userId=` | QueryParam | @NotBlank + @Validated |
+| `GET /api/v1/inventory/health?storeId=` | QueryParam | @NotBlank + @Validated |
 
 ---
 
