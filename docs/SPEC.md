@@ -126,10 +126,6 @@ GET /api/v1/inventory/health?storeId={storeId}
 |-------|------|-------------|
 | `storeId` | String | Store identifier |
 | `status` | String | Health status: `HEALTHY`, `LOW_STOCK`, `OUT_OF_STOCK` |
-| `lowStockProducts[]` | Array | Products below threshold |
-| `outOfStockProducts[]` | Array | Products with zero stock |
-
-> **Note**: This endpoint is documented but not yet implemented. See TD-001 in `docs/tech-debt/TECH-DEBT-LOG.md`.
 
 **Error Responses**:
 

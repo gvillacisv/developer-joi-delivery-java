@@ -1,7 +1,7 @@
 package com.tw.joi.delivery.controller;
 
+import com.tw.joi.delivery.dto.response.InventoryHealth;
 import com.tw.joi.delivery.service.InventoryService;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +17,8 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @GetMapping("/health")
-    public ResponseEntity<Map<String, Object>> fetchStoreInventoryHealth(@RequestParam(name = "storeId") String storeId) {
-        Map<String, Object> health = inventoryService.getStoreHealth(storeId);
+    public ResponseEntity<InventoryHealth> fetchStoreInventoryHealth(@RequestParam(name = "storeId") String storeId) {
+        InventoryHealth health = inventoryService.getStoreHealth(storeId);
         if (health == null) {
             return ResponseEntity.notFound().build();
         }

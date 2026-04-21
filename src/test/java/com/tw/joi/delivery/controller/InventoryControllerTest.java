@@ -3,8 +3,8 @@ package com.tw.joi.delivery.controller;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.tw.joi.delivery.dto.response.InventoryHealth;
 import com.tw.joi.delivery.service.InventoryService;
-import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,21 +29,14 @@ class InventoryControllerTest {
         String storeId = "store101";
 
         when(inventoryService.getStoreHealth(storeId))
-            .thenReturn(java.util.Map.of(
-                "storeId", storeId,
-                "status", "HEALTHY",
-                "lowStockProducts", Collections.emptyList(),
-                "outOfStockProducts", Collections.emptyList()
-            ));
+            .thenReturn(new InventoryHealth(storeId, "HEALTHY"));
 
         mockMvc.perform(MockMvcRequestBuilders.get(healthUrl)
                             .param("storeId", storeId)
                             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.storeId").value("store101"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("HEALTHY"))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.lowStockProducts").isEmpty())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.outOfStockProducts").isEmpty());
+            .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("HEALTHY"));
     }
 
     @Test

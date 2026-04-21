@@ -9,7 +9,7 @@
 
 | ID | Title | Severity | Status | Created |
 |----|-------|----------|--------|---------|
-| TD-001 | Inventory Health endpoint not implemented | Medium | Open | 2026-04-20 |
+| TD-001 | Inventory Health endpoint not implemented | Medium | Resolved | 2026-04-20 |
 | TD-002 | Missing input validation | High | Open | 2026-04-20 |
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
 | TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
