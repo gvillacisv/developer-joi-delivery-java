@@ -14,8 +14,9 @@
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
 | TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
 | TD-005 | No containerization | Medium | Open | 2026-04-20 |
-| TD-006 | Replace DTOs with Java Records | Low | Open | 2026-04-20 |
-| TD-007 | Unused imports in domain classes | Low | Open | 2026-04-20 |
+| TD-006 | Replace DTOs with Java Records | Low | Resolved | 2026-04-20 |
+| TD-007 | Unused imports in domain classes | Low | Resolved | 2026-04-20 |
+| TD-008 | Fix all unit tests with TDD | High | Open | 2026-04-20 |
 
 ---
 
@@ -155,17 +156,38 @@
 
 ---
 
+## TD-008: Fix All Unit Tests with TDD
+
+| Attribute | Value |
+|-----------|-------|
+| **Category** | Testing |
+| **Severity** | High |
+| **Status** | Open |
+| **Created** | 2026-04-20 |
+
+**Description**: Tests exist but were written after code (write tests first, then code). Need to follow TDD: Red → Green → Refactor.
+
+**Impact**: Tests don't drive design, potential missed edge cases, unclear test intent.
+
+**Suggested Fix**: Rewrite all tests following TDD:
+1. Write failing test first (Red)
+2. Write minimal code to pass (Green)
+3. Refactor (Refactor)
+
+---
+
 ## Priority Order
 
 | Priority | ID | Item |
 |----------|----|------|
-| 1 (High) | TD-002 | Input Validation |
-| 2 (High) | TD-003 | Authentication |
-| 3 (Medium) | TD-001 | Inventory Health |
-| 4 (Medium) | TD-004 | O(n) Performance |
-| 5 (Medium) | TD-005 | Containerization |
-| 6 (Low) | TD-006 | Replace DTOs with Records |
-| 7 (Very Low) | TD-007 | Unused Imports |
+| 1 (High) | TD-008 | Fix all unit tests with TDD |
+| 2 (High) | TD-002 | Input Validation |
+| 3 (High) | TD-003 | Authentication |
+| 4 (Medium) | TD-001 | Inventory Health |
+| 5 (Medium) | TD-004 | O(n) Performance |
+| 6 (Medium) | TD-005 | Containerization |
+| 7 (Low) | TD-006 | Replace DTOs with Records |
+| 8 (Very Low) | TD-007 | Unused Imports |
 
 ---
 
