@@ -12,7 +12,7 @@
 | TD-001 | Inventory Health endpoint not implemented | Medium | Resolved | 2026-04-20 |
 | TD-002 | Missing input validation | High | Resolved | 2026-04-20 |
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
-| TD-004 | O(n) data access performance | Medium | Open | 2026-04-20 |
+| TD-004 | O(n) data access performance | Medium | Will Not Fix | 2026-04-20 |
 | TD-005 | No containerization | Medium | Open | 2026-04-20 |
 | TD-006 | Replace DTOs with Java Records | Low | Resolved | 2026-04-20 |
 | TD-007 | Unused imports in domain classes | Low | Resolved | 2026-04-20 |
@@ -106,7 +106,7 @@
 |-----------|-------|
 | **Category** | Performance |
 | **Severity** | Medium |
-| **Status** | Open |
+| **Status** | **Will Not Fix** |
 | **Created** | 2026-04-20 |
 
 **Description**: User and Product lookups use `List.stream().filter()` — O(n) complexity.
@@ -118,6 +118,18 @@
 - `ProductService.getProduct()`: O(n)
 
 **Suggested Fix**: Use `Map<String, User>` and `Map<String, GroceryProduct>` for O(1) lookup.
+
+**Resolution**: **Will Not Fix — Interview Challenge Context**
+
+This is an interview challenge project using in-memory seed data. The O(n) lookups are acceptable because:
+- Data is small (static seed data, not a real database)
+- Performance is negligible with current scale (1 user, 3 products)
+- Any DB migration would bring its own indexes (B-tree, O(1) lookups)
+- Fixing this would be premature optimization
+
+> *"Don't optimize until you have a problem."* — Knuth
+
+**Note**: If this moves to a production database, the fix would be handled by DB indexes (ORM/JPA `@Column(unique=true)`) or database-level indexing, not in-memory Maps.
 
 ---
 
