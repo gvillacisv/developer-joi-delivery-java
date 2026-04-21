@@ -1,13 +1,18 @@
 package com.tw.joi.delivery.controller;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.tw.joi.delivery.service.InventoryService;
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(InventoryController.class)
 class InventoryControllerTest {
@@ -15,16 +20,42 @@ class InventoryControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
+    @MockitoBean
+    private InventoryService inventoryService;
 
     @Test
-    void shouldReturnTheHealthOfTheStore() throws Exception {
-        String getUrl = "/inventory/health?storeId={storeId}";
-        //add required mocking.
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl,"store101")
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-        //put meaning assertions
+    void shouldReturnHealthStatusForStore() throws Exception {
+        String healthUrl = "/inventory/health";
+        String storeId = "store101";
 
+        when(inventoryService.getStoreHealth(storeId))
+            .thenReturn(java.util.Map.of(
+                "storeId", storeId,
+                "status", "HEALTHY",
+                "lowStockProducts", Collections.emptyList(),
+                "outOfStockProducts", Collections.emptyList()
+            ));
+
+        mockMvc.perform(MockMvcRequestBuilders.get(healthUrl)
+                            .param("storeId", storeId)
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.storeId").value("store101"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("HEALTHY"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.lowStockProducts").isEmpty())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.outOfStockProducts").isEmpty());
+    }
+
+    @Test
+    void shouldReturn404WhenStoreNotFound() throws Exception {
+        String healthUrl = "/inventory/health";
+        String storeId = "unknownStore";
+
+        when(inventoryService.getStoreHealth(storeId)).thenReturn(null);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(healthUrl)
+                            .param("storeId", storeId)
+                            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound());
     }
 }
