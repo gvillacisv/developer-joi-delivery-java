@@ -33,10 +33,7 @@ public class CartControllerTest {
     void shouldAddTheRequestedProductToTheCart() throws Exception {
 
         String url = "/cart/product";
-        AddProductRequest addProductRequest = new AddProductRequest();
-        addProductRequest.setProductId("product101");
-        addProductRequest.setUserId("user101");
-        addProductRequest.setOutletId("store101");
+        AddProductRequest addProductRequest = new AddProductRequest("user101", "store101", "product101");
 
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
         String requestJson=ow.writeValueAsString(addProductRequest );
