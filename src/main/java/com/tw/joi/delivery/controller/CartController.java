@@ -22,11 +22,19 @@ public class CartController {
 
     @PostMapping("/product")
     public ResponseEntity<CartProductInfo> addProductToCart(@RequestBody AddProductRequest addProductRequest) {
-        return ResponseEntity.ok(cartService.addProductToCartForUser(addProductRequest));
+        CartProductInfo result = cartService.addProductToCartForUser(addProductRequest);
+        if (result == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/view")
     public ResponseEntity<Cart> viewCart(@RequestParam(name = "userId") String userId) {
-        return ResponseEntity.ok(cartService.getCartForUser(userId));
+        Cart cart = cartService.getCartForUser(userId);
+        if (cart == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(cart);
     }
 }

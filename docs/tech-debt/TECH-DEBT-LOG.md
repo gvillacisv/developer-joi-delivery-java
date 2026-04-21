@@ -165,9 +165,20 @@
 | **Status** | Open |
 | **Created** | 2026-04-20 |
 
-**Description**: Tests exist but were written after code (write tests first, then code). Need to follow TDD: Red → Green → Refactor.
+**Description**: Tests exist but were written after code (write tests first, then code). Need to follow TDD: Red → Green → Refactor. Also need to add missing tests for services and domain classes.
 
 **Impact**: Tests don't drive design, potential missed edge cases, unclear test intent.
+
+**Existing Test Files**:
+- `CartControllerTest.java` — controller tests
+- `InventoryControllerTest.java` — controller tests (empty mocks)
+- `DeliveryApplicationTests.java` — context load only
+
+**Missing Test Files** (to add):
+- `CartServiceTest.java`
+- `UserServiceTest.java`
+- `ProductServiceTest.java`
+- Domain tests (Cart, User, GroceryProduct, Outlet)
 
 **Suggested Fix**: Rewrite all tests following TDD:
 1. Write failing test first (Red)
