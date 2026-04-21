@@ -17,6 +17,7 @@
 | TD-006 | Replace DTOs with Java Records | Low | Resolved | 2026-04-20 |
 | TD-007 | Unused imports in domain classes | Low | Resolved | 2026-04-20 |
 | TD-008 | Fix all unit tests with TDD | High | Open | 2026-04-20 |
+| TD-009 | No code coverage library | Medium | Open | 2026-04-20 |
 
 ---
 
@@ -187,6 +188,34 @@
 
 ---
 
+## TD-009: No Code Coverage Library
+
+| Attribute | Value |
+|-----------|-------|
+| **Category** | Testing |
+| **Severity** | Medium |
+| **Status** | Open |
+| **Created** | 2026-04-20 |
+
+**Description**: No code coverage tool (JaCoCo, Cobertura) configured to measure test coverage.
+
+**Impact**: Cannot verify test coverage percentage, potential untested code paths.
+
+**Suggested Fix**: Add JaCoCo plugin to build.gradle:
+```groovy
+plugins {
+    id 'jacoco'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+```
+
+---
+
 ## Priority Order
 
 | Priority | ID | Item |
@@ -194,11 +223,12 @@
 | 1 (High) | TD-008 | Fix all unit tests with TDD |
 | 2 (High) | TD-002 | Input Validation |
 | 3 (High) | TD-003 | Authentication |
-| 4 (Medium) | TD-001 | Inventory Health |
-| 5 (Medium) | TD-004 | O(n) Performance |
-| 6 (Medium) | TD-005 | Containerization |
-| 7 (Low) | TD-006 | Replace DTOs with Records |
-| 8 (Very Low) | TD-007 | Unused Imports |
+| 4 (Medium) | TD-009 | Code Coverage Library |
+| 5 (Medium) | TD-001 | Inventory Health |
+| 6 (Medium) | TD-004 | O(n) Performance |
+| 7 (Medium) | TD-005 | Containerization |
+| 8 (Low) | TD-006 | Replace DTOs with Records |
+| 9 (Very Low) | TD-007 | Unused Imports |
 
 ---
 
