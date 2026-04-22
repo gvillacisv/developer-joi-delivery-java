@@ -1,0 +1,28 @@
+# Version control
+.git
+
+# Gradle
+.gradle
+
+# Build outputs
+build
+bin/
+
+# IDE
+.idea
+*.iml
+.settings/
+.vscode/
+
+# Documentation
+*.md
+docs/
+
+# Logs
+*.log
+logs/
+
+# Temp files
+*.tmp
+*.temp
+.DS_Store

@@ -13,7 +13,7 @@
 | TD-002 | Missing input validation | High | Resolved | 2026-04-20 |
 | TD-003 | No authentication / authorization | High | Open | 2026-04-20 |
 | TD-004 | O(n) data access performance | Medium | Will Not Fix | 2026-04-20 |
-| TD-005 | No containerization | Medium | Open | 2026-04-20 |
+| TD-005 | No containerization | Medium | Resolved | 2026-04-20 |
 | TD-006 | Replace DTOs with Java Records | Low | Resolved | 2026-04-20 |
 | TD-007 | Unused imports in domain classes | Low | Resolved | 2026-04-20 |
 | TD-008 | Fix all unit tests with TDD | High | Open | 2026-04-20 |
@@ -139,14 +139,31 @@ This is an interview challenge project using in-memory seed data. The O(n) looku
 |-----------|-------|
 | **Category** | Infrastructure |
 | **Severity** | Medium |
-| **Status** | Open |
+| **Status** | **Resolved** |
 | **Created** | 2026-04-20 |
+| **Resolved** | 2026-04-21 |
 
 **Description**: No Dockerfile or docker-compose configuration.
 
 **Impact**: Difficult to deploy consistently.
 
-**Suggested Fix**: Add `Dockerfile` and `docker-compose.yml`.
+**Resolution**: Implemented GraalVM Native Image build with multi-stage Dockerfile.
+
+**Implementation**:
+- Added `org.graalvm.buildtools.native` Gradle plugin
+- Created multi-stage `Dockerfile`:
+  - Stage 1: Build with `ghcr.io/graalvm/native-image-community:25`
+  - Stage 2: Runtime with `debian:stable-slim` + zlib
+- Binary: 85MB native executable, startup < 100ms
+
+**Build Commands**:
+```bash
+# Local native build (requires GraalVM)
+./gradlew nativeCompile
+
+# Container build
+podman build -t joi-delivery .
+```
 
 ---
 

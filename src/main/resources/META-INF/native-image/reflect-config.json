@@ -1,0 +1,11 @@
+[
+  {
+    "name": "com.tw.joi.delivery.JoiDeliveryApplication",
+    "methods": [
+      {
+        "name": "main",
+        "parameterTypes": ["java.lang.String[]"]
+      }
+    ]
+  }
+]
